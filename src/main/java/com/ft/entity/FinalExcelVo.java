@@ -3,6 +3,7 @@ package com.ft.entity;
 import com.alibaba.excel.annotation.ExcelProperty;
 import lombok.Data;
 
+
 /**
  * @author mask
  * @date 2020/11/27 17:40

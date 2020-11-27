@@ -3,6 +3,7 @@ package com.ft.entity;
 import lombok.Data;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author mask
@@ -12,5 +13,5 @@ import java.util.List;
 @Data
 public class ZongZhandExcelVo {
     private List<String> headList;
-    private List<ZongZhangVo> dataList;
+    private List<Map<Integer, String>> dataList;
 }

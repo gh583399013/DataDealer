@@ -18,14 +18,40 @@ import org.springframework.beans.BeanUtils;
  */
 public class DataProcessor {
 
-    private String filePath = "C:\\Users\\mask\\Desktop\\新建文件夹\\";
+    private String finalFilePath;
+    private String taiZhangFilePath = null;
+    private String zongZhangFilePath = null;
+
+    public String getFinalFilePath() {
+        return finalFilePath;
+    }
+
+    public void setFinalFilePath(String finalFilePath) {
+        this.finalFilePath = finalFilePath;
+    }
+
+    public String getTaiZhangFilePath() {
+        return taiZhangFilePath;
+    }
+
+    public void setTaiZhangFilePath(String taiZhangFilePath) {
+        this.taiZhangFilePath = taiZhangFilePath;
+    }
+
+    public String getZongZhangFilePath() {
+        return zongZhangFilePath;
+    }
+
+    public void setZongZhangFilePath(String zongZhangFilePath) {
+        this.zongZhangFilePath = zongZhangFilePath;
+    }
 
     private TaiZhandExcelVo taiZhandExcelVo = null;
     private ZongZhandExcelVo zongZhandExcelVo = null;
 
-    public void dealDataAndWriteToExcel(String taiZhangFileWholePath, String zongZhangFileWholePath){
-        EasyExcel.read(taiZhangFileWholePath, new TaiZhangDataListener(this)).sheet().doRead();
-        EasyExcel.read(zongZhangFileWholePath, new ZongZhangDataListener(this)).sheet().doRead();
+    public void dealDataAndWriteToExcel(){
+        EasyExcel.read(taiZhangFilePath, new TaiZhangDataListener(this)).sheet().doRead();
+        EasyExcel.read(zongZhangFilePath, new ZongZhangDataListener(this)).sheet().doRead();
 
         System.out.println("加载文件完毕");
 
@@ -62,7 +88,7 @@ public class DataProcessor {
             finalList.add(sortValueMap(resultMap));
         }
         String name = "处理结果_" + new SimpleDateFormat("YYYY_MM_DD").format(new Date());
-        String fileName = filePath + name + ".xlsx";
+        String fileName = finalFilePath + name + ".xlsx";
         // 这里 需要指定写用哪个class去写，然后写到第一个sheet，名字为模板 然后文件流会自动关闭
         EasyExcel.write(fileName)
                 .head(initHeadList(taiZhandExcelVo.getHeadList(), zongZhandExcelVo.getHeadList()))
@@ -96,19 +122,16 @@ public class DataProcessor {
         return finalHeadList;
     }
 
-    public static void main(String[] args) {
-        DataProcessor dataProcessor = new DataProcessor();
-        try {
-            String taiZhang = "C:\\\\Users\\\\mask\\\\Desktop\\\\新建文件夹\\\\台账模板11.27.xlsx";
-            String zongZhang = "C:\\\\Users\\\\mask\\\\Desktop\\\\新建文件夹\\\\总账模板11.27.xlsx";
-            dataProcessor.dealDataAndWriteToExcel(taiZhang, zongZhang);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        // 这里 需要指定读用哪个class去读，然后读取第一个sheet 文件流会自动关闭
-//        EasyExcel.read("C:\\Users\\mask\\Desktop\\新建文件夹\\台账模板11.27.xlsx", TaiZhangVo.class, new TaiZhangDataListener()).sheet().doRead();
-    }
+//    public static void main(String[] args) {
+//        DataProcessor dataProcessor = new DataProcessor();
+//        try {
+//            String taiZhang = "C:\\\\Users\\\\mask\\\\Desktop\\\\新建文件夹\\\\台账模板11.27.xlsx";
+//            String zongZhang = "C:\\\\Users\\\\mask\\\\Desktop\\\\新建文件夹\\\\总账模板11.27.xlsx";
+//            dataProcessor.dealDataAndWriteToExcel();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     public void saveTaiZhangData(Map<Integer, String> realHeadMap, List<Map<Integer, String>> list) {
         taiZhandExcelVo = new TaiZhandExcelVo();

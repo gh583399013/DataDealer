@@ -1,15 +1,11 @@
 package com.ft.util;
 
 import com.alibaba.excel.EasyExcel;
-import com.alibaba.excel.ExcelReader;
-import com.alibaba.excel.read.metadata.ReadSheet;
-import com.ft.entity.*;
+import com.ft.entity.TaiZhandExcelVo;
+import com.ft.entity.ZongZhandExcelVo;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
-
-import com.alibaba.fastjson.JSON;
-import org.springframework.beans.BeanUtils;
 
 /**
  * @author mask
@@ -53,7 +49,6 @@ public class DataProcessor {
         EasyExcel.read(taiZhangFilePath, new TaiZhangDataListener(this)).sheet().doRead();
         EasyExcel.read(zongZhangFilePath, new ZongZhangDataListener(this)).sheet().doRead();
 
-        System.out.println("加载文件完毕");
 
         if(taiZhandExcelVo == null || taiZhandExcelVo.getDataList() == null || taiZhandExcelVo.getDataList().size() == 0 ||
                 zongZhandExcelVo == null || zongZhandExcelVo.getDataList() == null || zongZhandExcelVo.getDataList().size() == 0){
@@ -87,7 +82,7 @@ public class DataProcessor {
             }
             finalList.add(sortValueMap(resultMap));
         }
-        String name = "处理结果_" + new SimpleDateFormat("YYYY_MM_DD").format(new Date());
+        String name = "处理结果_" + new SimpleDateFormat("YYYY_MM_dd").format(new Date());
         String fileName = finalFilePath + name + ".xlsx";
         // 这里 需要指定写用哪个class去写，然后写到第一个sheet，名字为模板 然后文件流会自动关闭
         EasyExcel.write(fileName)
